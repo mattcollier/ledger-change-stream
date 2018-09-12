@@ -11,8 +11,13 @@ async function work() {
   const client = await MongoClient.connect(url);
   const db = client.db(dbName);
   const collection = db.collection(blockCollection);
-  const r = await collection.find().toArray();
-  console.log('RRRRRRR', r);
+  // const r = await collection.find().toArray();
+  const changeStream = collection.watch();
+  const done = false;
+  while(!done) {
+    const next = await changeStream.next();
+    console.log('NNNNNNN', next);
+  }
 }
 
 work().catch(err => {
